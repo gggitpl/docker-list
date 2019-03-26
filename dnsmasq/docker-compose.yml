@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  dnsmasq:
+    container_name: dns
+    build: .
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+    volumes:
+      - ./dnsmasq.conf:/etc/dnsmasq.conf
+      - ./resolv.dnsmasq.conf:/etc/resolv.dnsmasq.conf
+      - ./dnsmasqhosts:/etc/dnsmasqhosts
+      - /var/log/dnsmasq/:/var/log/
+    cap_drop:
+      - NET_ADMIN
