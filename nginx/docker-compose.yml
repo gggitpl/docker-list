@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  nginx:
+    build: .
+    image: gggitpl/nginx-pagespeed
+    container_name: nginx
+    ports:
+      - 80:80
+      - 443:443
+    # volumes:
+    #   - ./conf.d:/etc/nginx/conf.d
+    #   - ./certs:/etc/nginx/certs
+    #   - ./h5bp:/etc/nginx/h5bp
+    #   - ./pagespeed:/etc/nginx/pagespeed
+    #   - ./nginx.conf:/etc/nginx/nginx.conf
+    #   - ./vhosts:/etc/nginx/test/vhosts
+    #   - ./html:/usr/share/nginx/html
+    #   - ./log:/var/log/nginx
+  acme:
+    build: ./acme/
+    image: gggitpl/acme
+    container_name: acme
+    environment:
+      - Ali_Key=LTAIiCgJrSOMCnuq
+      - Ali_Secret=imNnvnF9mD9w7JfDbpVEjwttOe3gb3
+      - LETSENCRYPT_DNS=dns_ali
+      - LETSENCRYPT_HOST=51hidaoyou.com
+    volumes:
+      - ./acme/data:/acme.sh
+      - ./certs:/certs

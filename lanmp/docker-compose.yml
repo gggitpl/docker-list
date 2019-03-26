@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  lanmp:
+    build: .
+    image: lanmp_v3.1
+    container_name: lanmp
+    ports:
+      - 12511:8080
+      - 12512:80
+      - 12513:3306
+    # volumes:
+    #   - ./web:/www/web
+    #   - ./mysql:/www/wdlinux/mysql/data
+    #   - ./log:/www/wdlinux/nginx/logs
+    restart: always
