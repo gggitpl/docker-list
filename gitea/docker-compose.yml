@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  gogs:
+  gitea:
     image: gitea/gitea:latest
     container_name: gitea
     ports:
@@ -9,6 +9,8 @@ services:
       - "10080:3000"
     volumes:
       - ./data:/data
+      - /etc/localtime:/etc/localtime
+      - /etc/timezone:/etc/timezone
     networks:
       - gitea
     depends_on:
@@ -25,6 +27,8 @@ services:
       - MYSQL_DATABASE=gitea
     volumes:
       - ./mysql:/var/lib/mysql
+      - /etc/localtime:/etc/localtime
+      - /etc/timezone:/etc/timezone
     networks:
       - gitea
     restart: always
