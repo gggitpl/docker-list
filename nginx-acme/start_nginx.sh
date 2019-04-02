@@ -12,13 +12,13 @@ if [ $? -eq 0 ] ;then
 fi
 # 容器不存在,直接构建并启动
 docker-compose ps | grep nginx
-if [ $? -ne 0]
-    docker-compose up -d --build
+if [ $? -ne 0 ] ;then
+    docker-compose up -d --build nginx
     docker cp nginx:/etc/nginx/conf.d ./conf.d
     docker cp nginx:/etc/nginx/h5bp ./h5bp
     docker cp nginx:/etc/nginx/nginx.conf ./nginx.conf
     docker cp nginx:/usr/share/nginx/html ./html
     docker cp nginx:/var/log/nginx ./log
     sed -i 's/# //g' ./docker-compose.yml 
-    docker-compose stop && echo 'y' | docker-compose rm && docker-compose up -d --build
+    docker-compose stop nginx && echo 'y' | docker-compose rm && docker-compose up -d --build nginx
 fi
