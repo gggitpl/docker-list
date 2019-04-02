@@ -1,12 +1,28 @@
-FROM alpine:latest
+FROM alpine:3.9
+
+ENV DNSMASQ_VERSION=2.80
 
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
-&& apk add --no-cache dnsmasq wget\
-&& wget -P /etc/dnsmasq.d/ https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/accelerated-domains.china.conf \
-&& wget -P /etc/dnsmasq.d/ https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/apple.china.conf \
-&& wget -P /etc/dnsmasq.d/ https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/bogus-nxdomain.china.conf
-VOLUME /etc/
-VOLUME /etc/dnsmasq.d/
-VOLUME /var/log/
+    && apk add --update --no-cache --virtual .build-deps \
+    gcc \
+    libc-dev \
+    make \
+    linux-headers \
+    curl \
+    bash \
+    git
+
+RUN wget http://www.thekelleys.org.uk/dnsmasq/dnsmasq-${DNSMASQ_VERSION}.tar.gz \
+    && tar zxvf dnsmasq-${DNSMASQ_VERSION}.tar.gz \
+    && cd dnsmasq-${DNSMASQ_VERSION} \
+    && make \
+    && make install \
+    && mkdir -p /etc/dnsmasq.d \
+    && rm /dnsmasq-${DNSMASQ_VERSION}.tar.gz
+
+RUN wget https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/install.sh \
+    && chmod +x /install.sh && /install.sh \
+    && apk del .build-deps
+
 EXPOSE 53 53/udp
-ENTRYPOINT ["dnsmasq","-k"]
+ENTRYPOINT ["dnsmasq"]
