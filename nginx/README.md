@@ -1,3 +1,23 @@
+# 生成Diffie-Hellman键
+
+```bash
+openssl dhparam -out dhparam.pem 2048
+```
+
+# 创建挂载目录
+
+```bash
+mkdir -p /root/docker/nginx/conf.d \
+mkdir -p /root/docker/nginx/sites-enabled \
+mkdir -p /root/docker/nginx/common\
+touch /root/docker/nginx/nginx.conf \
+mkdir -p /root/docker/nginx/html \
+mkdir -p /root/docker/nginx/log \
+mkdir -p /root/docker/nginx/acmeout
+```
+
+# 启动容器
+
 # 颁发证书
 
 ```bash
