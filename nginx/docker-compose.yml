@@ -1,0 +1,35 @@
+version: '3'
+services:
+  web:
+    image: nginx
+    container_name: nginx
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    labels:
+      - sh.acme.autoload.domain=gggitpl.com
+    volumes:
+      - /root/docker/nginx/conf.d:/etc/nginx/conf.d
+      - /root/docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - /root/docker/nginx/html:/usr/share/nginx/html
+      - /root/docker/nginx/log:/var/log/nginx
+      - /etc/localtime:/etc/localtime
+      - /etc/timezone:/etc/timezone
+
+  acme.sh:
+    image: neilpang/acme.sh
+    container_name: acme.sh    
+    command: daemon
+    volumes:
+      - /root/docker/nginx/acmeout:/acme.sh
+      - /var/run/docker.sock:/var/run/docker.sock 
+      - /etc/localtime:/etc/localtime
+      - /etc/timezone:/etc/timezone
+    environment:
+      - DEPLOY_DOCKER_CONTAINER_LABEL=sh.acme.autoload.domain=gggitpl.com
+      - DEPLOY_DOCKER_CONTAINER_KEY_FILE=/etc/nginx/ssl/gggitpl.com/key.pem
+      - DEPLOY_DOCKER_CONTAINER_CERT_FILE="/etc/nginx/ssl/gggitpl.com/cert.pem"
+      - DEPLOY_DOCKER_CONTAINER_CA_FILE="/etc/nginx/ssl/gggitpl.com/ca.pem"
+      - DEPLOY_DOCKER_CONTAINER_FULLCHAIN_FILE="/etc/nginx/ssl/gggitpl.com/full.pem"
+      - DEPLOY_DOCKER_CONTAINER_RELOAD_CMD="service nginx force-reload"

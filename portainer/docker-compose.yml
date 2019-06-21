@@ -4,8 +4,11 @@ services:
   portainer:
     image: portainer/portainer
     container_name: portainer
+    restart: always
     ports:
       - 9000:9000
     volumes:
       - ./data:/data
       - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/localtime:/etc/localtime
+      - /etc/timezone:/etc/timezone

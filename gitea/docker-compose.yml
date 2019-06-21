@@ -4,21 +4,20 @@ services:
   gitea:
     image: gitea/gitea:latest
     container_name: gitea
+    restart: always
     ports:
       # - "10022:22"
       - "10080:3000"
     volumes:
-      - ./data:/data
+      - /root/docker/gitea/data:/data
       - /etc/localtime:/etc/localtime
       - /etc/timezone:/etc/timezone
-    networks:
-      - gitea
     depends_on:
       - db
-    restart: always
   db:
     image: mysql:5.7
     container_name: mysql
+    restart: always
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     environment:
       - MYSQL_ROOT_PASSWORD=8WR7fWJrRK7cvQ
@@ -26,12 +25,6 @@ services:
       - MYSQL_PASSWORD=PQGLswcU8fbByeW
       - MYSQL_DATABASE=gitea
     volumes:
-      - ./mysql:/var/lib/mysql
+      - /root/docker/gitea/mysql:/var/lib/mysql
       - /etc/localtime:/etc/localtime
       - /etc/timezone:/etc/timezone
-    networks:
-      - gitea
-    restart: always
-
-networks:
-  gitea:

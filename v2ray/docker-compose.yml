@@ -3,9 +3,11 @@ services:
   v2ray:
     image: v2ray/official
     container_name: v2ray
+    restart: always
     ports: 
       - 25843:25843/tcp
       - 25843:25843/udp
+      - /etc/localtime:/etc/localtime
+      - /etc/timezone:/etc/timezone
     volumes: 
-      - ./config.json:/etc/v2ray/config.json
-    restart: always
+      - /root/docker/v2ray/config.json:/etc/v2ray/config.json
