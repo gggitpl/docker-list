@@ -1,34 +1,42 @@
 {
-    "inbounds": [
-      {
-        "port": 1080,
-        "protocol": "socks",
-        "sniffing": {
-          "enabled": true,
-          "destOverride": ["http", "tls"]
-        },
-        "settings": {
-          "auth": "noauth"
-        }
+  "inbounds": [
+    {
+      "port": 1080,
+      "protocol": "socks",
+      "sniffing": {
+        "enabled": true,
+        "destOverride": ["http", "tls"]
+      },
+      "settings": {
+        "auth": "noauth"
       }
-    ],
-    "outbounds": [
-      {
-        "protocol": "vmess",
-        "settings": {
-          "vnext": [
-            {
-              "address": "xxx",
-              "port": 25843,
-              "users": [
-                {
-                  "id": "1661759e-ae55-4188-b699-8dbfeca50576",
-                  "alterId": 64
-                }
-              ]
-            }
-          ]
-        }
+    },
+    {
+      "port": 3128,
+      "listen": "0.0.0.0",
+      "protocol": "http",
+      "settings": {
+        "timeout": 0
       }
-    ]
-  }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "vmess",
+      "settings": {
+        "vnext": [
+          {
+            "address": "xxx",
+            "port": 25843,
+            "users": [
+              {
+                "id": "1661759e-ae55-4188-b699-8dbfeca50576",
+                "alterId": 64
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
