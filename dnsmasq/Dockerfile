@@ -25,4 +25,4 @@ RUN wget https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master
     && apk del .build-deps
 
 EXPOSE 53 53/udp
-ENTRYPOINT ["dnsmasq"]
+ENTRYPOINT ["dnsmasq", "--no-daemon"]
