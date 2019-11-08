@@ -1,8 +1,8 @@
-FROM alpine:3.9
+FROM alpine:latest
 
 ENV DNSMASQ_VERSION=2.80
 
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories \
     && apk add --update --no-cache --virtual .build-deps \
     gcc \
     libc-dev \
